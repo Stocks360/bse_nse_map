@@ -1,22 +1,22 @@
 import pandas as pd
 
-# NSE list
-nse_url = "https://archives.nseindia.com/content/equities/EQUITY_L.csv"
-nse = pd.read_csv(nse_url)
+# NSE stock list
+url = "https://archives.nseindia.com/content/equities/EQUITY_L.csv"
 
-nse_df = pd.DataFrame({
-    "symbol": nse["SYMBOL"],
-    "nse": nse["SYMBOL"],
+df = pd.read_csv(url)
+
+# create TradingView symbol
+df["tradingview"] = "NSE:" + df["SYMBOL"]
+
+# build output CSV
+out = pd.DataFrame({
+    "symbol": df["SYMBOL"],
+    "nse": df["SYMBOL"],
     "bse": "",
-    "tradingview": "NSE:" + nse["SYMBOL"],
-    "isin": nse["ISIN NUMBER"],
-    "company": nse["NAME OF COMPANY"],
-    "sector": ""
+    "tradingview": df["tradingview"]
 })
 
-# remove duplicates
-nse_df = nse_df.drop_duplicates(subset="symbol")
+# save CSV
+out.to_csv("bse_nse_map.csv", index=False)
 
-nse_df.to_csv("bse_nse_map.csv", index=False)
-
-print("Advanced CSV generated")
+print("CSV updated successfully")
