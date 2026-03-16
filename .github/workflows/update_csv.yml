@@ -5,6 +5,9 @@ on:
     - cron: "0 3 * * *"
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   update:
     runs-on: ubuntu-latest
@@ -21,7 +24,7 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install packages
+      - name: Install pandas
         run: pip install pandas
 
       - name: Run script
